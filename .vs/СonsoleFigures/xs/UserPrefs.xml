@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{7B2A35E3-D26B-4796-8562-E6E1990CD776}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="СonsoleFigures/Program.cs">
     <Files>
-      <File FileName="СonsoleFigures/Program.cs" Line="14" Column="37" />
+      <File FileName="СonsoleFigures/Program.cs" Line="16" Column="37" />
       <File FileName="СonsoleFigures/Classes/Picture.cs" />
       <File FileName="СonsoleFigures/Exceptions/FigureOutOfThePictureRangeException.cs" />
       <File FileName="СonsoleFigures/Classes/Figure.cs" />

@@ -37,7 +37,7 @@ namespace СonsoleFigures.Classes
             {
                 throw new FigureOutOfThePictureRangeException("Figure out of the picture right bound");
             }
-            if (figure.Coordinates.X + figure.ToMatrix().GetLength(1) >= Width)
+            if (figure.Coordinates.X + figure.ToMatrix().GetLength(1) > Width)
             {
                 throw new FigureOutOfThePictureRangeException("Figure out of the picture left bound");
             }
@@ -45,8 +45,9 @@ namespace СonsoleFigures.Classes
             {
                 throw new FigureOutOfThePictureRangeException("Figure out of the picture top bound");
             }
-            if (figure.Coordinates.Y + figure.ToMatrix().GetLength(0) >= Height)
+            if (figure.Coordinates.Y + figure.ToMatrix().GetLength(0) > Height)
             {
+                Console.WriteLine(figure.ToMatrix().GetLength(0));
                 throw new FigureOutOfThePictureRangeException("Figure out of the picture bottom bound");
             }
             _figures.Add(figure);
