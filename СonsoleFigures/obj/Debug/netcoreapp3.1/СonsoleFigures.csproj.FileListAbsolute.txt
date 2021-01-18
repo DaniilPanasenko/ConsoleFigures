@@ -1,0 +1,12 @@
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/bin/Debug/netcoreapp3.1/СonsoleFigures.deps.json
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/bin/Debug/netcoreapp3.1/СonsoleFigures.runtimeconfig.json
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/bin/Debug/netcoreapp3.1/СonsoleFigures.runtimeconfig.dev.json
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/bin/Debug/netcoreapp3.1/СonsoleFigures.dll
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/bin/Debug/netcoreapp3.1/СonsoleFigures.pdb
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/obj/Debug/netcoreapp3.1/СonsoleFigures.csprojAssemblyReference.cache
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/obj/Debug/netcoreapp3.1/СonsoleFigures.AssemblyInfoInputs.cache
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/obj/Debug/netcoreapp3.1/СonsoleFigures.AssemblyInfo.cs
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/obj/Debug/netcoreapp3.1/СonsoleFigures.csproj.CoreCompileInputs.cache
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/obj/Debug/netcoreapp3.1/СonsoleFigures.dll
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/obj/Debug/netcoreapp3.1/СonsoleFigures.pdb
+/Users/admin/Projects/СonsoleFigures/СonsoleFigures/obj/Debug/netcoreapp3.1/СonsoleFigures.genruntimeconfig.cache
