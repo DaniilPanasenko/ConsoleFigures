@@ -5,9 +5,9 @@ namespace СonsoleFigures.Classes
     {
         public Point LeftTopPoint { get; private set; }
 
-        public decimal Width { get; private set; }
+        public int Width { get; private set; }
 
-        public decimal Height { get; private set; }
+        public int Height { get; private set; }
 
         public override Point Coordinates => LeftTopPoint;
 
@@ -15,16 +15,34 @@ namespace СonsoleFigures.Classes
 
         public override decimal Perimetr => 2 * Width + 2 * Height;
 
-        public Rectangle(Point point, decimal width, decimal height, string name = "Rectangle") : base(name)
+        public Rectangle(Point point, int width, int height, bool isHollow, string name = "Rectangle") : base(name, isHollow)
         {
             LeftTopPoint = point;
             Width = width;
             Height = height;
         }
 
-        public override int[,] ToMatrix()
+        public override bool[,] ToMatrix()
         {
-            throw new NotImplementedException();
+            bool[,] result = new bool[Height, Width];
+            for (int i = 0; i < result.GetLength(0); i++)
+            {
+                for (int j = 0; j < result.GetLength(1); j++)
+                {
+                    result[i, j] = true;
+                }
+            }
+            if (IsHollow)
+            {
+                for (int i = 1; i < result.GetLength(0)-1; i++)
+                {
+                    for (int j = 1; j < result.GetLength(1)-1; j++)
+                    {
+                        result[i, j] = false;
+                    }
+                }
+            }
+            return result;
         }
 
         public override string ToString()

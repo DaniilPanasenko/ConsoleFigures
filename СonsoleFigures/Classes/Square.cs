@@ -3,7 +3,7 @@ namespace СonsoleFigures.Classes
 {
     public class Square : Rectangle
     {
-        public Square(Point point, decimal width) : base(point, width, width, "Square")
+        public Square(Point point, int width, bool isHollow) : base(point, width, width, isHollow, "Square")
         {
         }
 

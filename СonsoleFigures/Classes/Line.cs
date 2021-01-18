@@ -18,13 +18,13 @@ namespace СonsoleFigures.Classes
                     Math.Min(Point1.Y, Point2.Y));
 
 
-        public Line(Point point1, Point point2) : base("Line")
+        public Line(Point point1, Point point2) : base("Line", false)
         {
             Point1 = point1;
             Point2 = point2;
         }
 
-        public override int[,] ToMatrix()
+        public override bool[,] ToMatrix()
         {
             throw new NotImplementedException();
         }

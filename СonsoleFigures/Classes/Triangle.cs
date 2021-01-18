@@ -11,49 +11,34 @@ namespace СonsoleFigures.Classes
 
         public Point Point3 { get; private set; }
 
-        private decimal A =>
-            (decimal)Math.Sqrt((double)(
-                (Point1.X - Point2.X) * (Point1.X - Point2.X) +
-                (Point1.Y - Point2.Y) * (Point1.Y - Point2.Y)
-            ));
-
-        private decimal B =>
-            (decimal)Math.Sqrt((double)(
-                (Point1.X - Point3.X) * (Point1.X - Point3.X) +
-                (Point1.Y - Point3.Y) * (Point1.Y - Point3.Y)
-            ));
-
-        private decimal C =>
-            (decimal)Math.Sqrt((double)(
-                (Point3.X - Point2.X) * (Point3.X - Point2.X) +
-                (Point3.Y - Point2.Y) * (Point3.Y - Point2.Y)
-            ));
-
         public override decimal Square =>
             (decimal)Math.Sqrt((double)(
                 Perimetr / 2 *
-                (Perimetr / 2 - A) *
-                (Perimetr / 2 - B) *
-                (Perimetr / 2 - C)
+                (Perimetr / 2 - new Line(Point1, Point2).Perimetr) *
+                (Perimetr / 2 - new Line(Point1, Point3).Perimetr) *
+                (Perimetr / 2 - new Line(Point3, Point2).Perimetr)
             ));
 
-        public override decimal Perimetr => A + B + C;
+        public override decimal Perimetr =>
+            new Line(Point1, Point2).Perimetr +
+            new Line(Point1, Point3).Perimetr +
+            new Line(Point3, Point2).Perimetr;
 
         public override Point Coordinates =>
             new Point(
-                new decimal[] { Point1.X, Point2.X, Point3.X }.Min(),
-                new decimal[] { Point1.Y, Point2.Y, Point3.Y }.Min()
+                new int[] { Point1.X, Point2.X, Point3.X }.Min(),
+                new int[] { Point1.Y, Point2.Y, Point3.Y }.Min()
             );
 
 
-        public Triangle(Point point1, Point point2, Point point3) : base("Triangle")
+        public Triangle(Point point1, Point point2, Point point3, bool isHollow) : base("Triangle", isHollow)
         {
             Point1 = point1;
             Point2 = point2;
             Point3 = point3;
         }
 
-        public override int[,] ToMatrix()
+        public override bool[,] ToMatrix()
         {
             throw new NotImplementedException();
         }

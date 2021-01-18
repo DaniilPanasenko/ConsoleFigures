@@ -5,7 +5,7 @@ namespace СonsoleFigures.Classes
 {
     abstract public class Figure : IFigure
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public abstract decimal Square { get; }
 
@@ -13,12 +13,15 @@ namespace СonsoleFigures.Classes
 
         public abstract Point Coordinates { get; }
 
-        public Figure(string name)
+        public bool IsHollow { get; private set; }
+
+        public Figure(string name, bool isHollow)
         {
             Name = name;
+            IsHollow = isHollow;
         }
 
-        public abstract int[,] ToMatrix();
+        public abstract bool[,] ToMatrix();
 
         public abstract override string ToString();
 
