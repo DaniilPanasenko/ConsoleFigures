@@ -15,9 +15,11 @@ namespace СonsoleFigures
             //Line line4 = new Line(new Point(20, 6), new Point(6,20 ));
             Circle circle = new Circle(new Point(20, 20), 15, false);
             Circle circle0 = new Circle(new Point(10, 10), 10, true);
+            Triangle triangle = new Triangle(new Point(1, 30), new Point(47, 0), new Point(40, 45), false);
             Picture picture = new Picture(50, 50);
             picture.AddFigure(circle);
             picture.AddFigure(circle0);
+            picture.AddFigure(triangle);
             var output = picture.ToMatrix();
             for (int i = 0; i < output.GetLength(0); i++) 
             {
