@@ -5,7 +5,7 @@ namespace СonsoleFigures.Interfaces
 {
     public interface IFigure
     {
-        public string Name { get; set; }
+        public string Name { get; }
 
         public decimal Square { get; }
 
@@ -13,7 +13,9 @@ namespace СonsoleFigures.Interfaces
 
         public Point Coordinates { get; }
 
-        public int[,] ToMatrix();
+        public bool IsHollow { get; }
+
+        public bool[,] ToMatrix();
 
         public string ToString();
     }

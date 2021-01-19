@@ -3,11 +3,11 @@ namespace СonsoleFigures.Classes
 {
     public class Point
     {
-        public decimal X { get; private set; }
+        public int X { get; private set; }
 
-        public decimal Y { get; private set; }
+        public int Y { get; private set; }
 
-        public Point(decimal x, decimal y)
+        public Point(int x, int y)
         {
             X = x;
             Y = y;
