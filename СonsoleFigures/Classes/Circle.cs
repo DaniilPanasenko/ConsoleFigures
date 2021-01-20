@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using СonsoleFigures.Enums;
 
 namespace СonsoleFigures.Classes
 {
+    [Serializable]
     public class Circle : Figure
     {
-        public Point Center { get; private set; }
+        public Point Center { get; set; }
 
-        public int Radius { get; private set; }
+        public int Radius { get; set; }
 
         public override decimal Square => (decimal)Math.PI * Radius * Radius;
 
@@ -15,13 +17,14 @@ namespace СonsoleFigures.Classes
 
         public override Point Coordinates => new Point(Center.X - Radius, Center.Y - Radius);
 
-        private readonly bool[,] _matrix;
+        private bool[,] _matrix;
+
+        public Circle() { }
 
         public Circle(Point center, int radius, bool isHollow) : base("Circle", isHollow)
         {
             Center = center;
             Radius = radius;
-            _matrix = GetMatrix();
         }
 
         private bool[,] GetMatrix()
@@ -52,7 +55,14 @@ namespace СonsoleFigures.Classes
             return result;
         }
 
-        public override bool[,] ToMatrix() => _matrix;
+        public override bool[,] ToMatrix()
+        {
+            if (_matrix == null)
+            {
+                _matrix = GetMatrix();
+            }
+            return _matrix;
+        }
 
         public override string ToString()
         {

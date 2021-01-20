@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using СonsoleFigures.Enums;
 
 namespace СonsoleFigures.Classes
 {
+    [Serializable]
     public class Rectangle : Figure
     {
-        public Point LeftTopPoint { get; private set; }
+        public Point LeftTopPoint { get;  set; }
 
-        public int Width { get; private set; }
+        public int Width { get; set; }
 
-        public int Height { get; private set; }
+        public int Height { get; set; }
 
         public override Point Coordinates => LeftTopPoint;
 
@@ -17,14 +19,15 @@ namespace СonsoleFigures.Classes
 
         public override decimal Perimetr => 2 * Width + 2 * Height;
 
-        private readonly bool[,] _matrix;
+        private bool[,] _matrix;
+
+        public Rectangle() { }
 
         public Rectangle(Point point, int width, int height, bool isHollow, string name = "Rectangle") : base(name, isHollow)
         {
             LeftTopPoint = point;
             Width = width;
             Height = height;
-            _matrix = GetMatrix();
         }
 
         private bool[,] GetMatrix()
@@ -55,7 +58,14 @@ namespace СonsoleFigures.Classes
             LeftTopPoint.ChangePosition(direction);
         }
 
-        public override bool[,] ToMatrix() => _matrix;
+        public override bool[,] ToMatrix()
+        {
+            if (_matrix == null)
+            {
+                _matrix = GetMatrix();
+            }
+            return _matrix;
+        }
 
         public override string ToString()
         {

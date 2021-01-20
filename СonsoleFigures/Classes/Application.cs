@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Xml.Serialization;
+using System.Xml.Linq;
 using СonsoleFigures.Enums;
 using СonsoleFigures.Exceptions;
 
@@ -9,10 +13,14 @@ namespace СonsoleFigures.Classes
     public class Application
     {
         private const string rules =
-            "rule\n" +
-            "rule\n" +
-            "rule\n" +
-            "rule\n";
+            "Move the figures: Up, Down, Left, Right arrows\n" +
+            "Change figure by level: 'Q', 'W'\n" +
+            "Delete figure: BACKSPACE\n" +
+            "Transition to CLI Menu: SPACE\n" +
+            "CLI Menu: follow the instructions in menu\n" +
+            "Make the window size as large as possible\n" +
+            "If you resized the window, then do any action";
+
 
         private Stack<string> Menu { get; set; }
         
@@ -30,7 +38,6 @@ namespace СonsoleFigures.Classes
             {
                 Menu.Pop();
             }
-
         }
 
         private void Welcome()
@@ -45,22 +52,28 @@ namespace СonsoleFigures.Classes
             while (Console.ReadKey().Key != ConsoleKey.Enter) { }
         }
 
-        private void RedrawPicture()
+        private void Redraw()
         {
+            Picture.SetSize(Console.WindowWidth, Console.WindowHeight - 13);
             Console.SetCursorPosition(0, 0);
-            Picture.Print();
-            Console.WriteLine(new String(' ', Console.BufferWidth));
-            Console.SetCursorPosition(0, Console.CursorTop-1);
-            if (Picture.ActiveFigure != null)
+            try
             {
-                Console.WriteLine(Picture.ActiveFigure);
+                Picture.Print();
+                Console.WriteLine(new String(' ', Console.BufferWidth));
+                Console.SetCursorPosition(0, Console.CursorTop-1);
+                if (Picture.ActiveFigure != null)
+                {
+                    Console.WriteLine(Picture.ActiveFigure);
+                }
+            }
+            catch (Exception)
+            {
+                Console.Clear();
+                Console.WriteLine("PLEASE CHANGE YOUR FRAME SIZE");
+                Console.WriteLine("SOME FIGURES DON'T FIT TO THE SRCEEN");
             }
             Console.WriteLine();
-        }
-
-        private void RedrawMenu()
-        {
-            Console.SetCursorPosition(0, Picture.Height+3);
+            Console.SetCursorPosition(0, Picture.Height + 3);
             for (int i = 0; i < 11; i++)
             {
                 Console.WriteLine(new String(' ', Console.BufferWidth));
@@ -68,7 +81,7 @@ namespace СonsoleFigures.Classes
             Console.SetCursorPosition(0, Picture.Height + 4);
             var menuList = Menu.ToList();
             menuList.Reverse();
-            foreach (var menuItem in menuList) 
+            foreach (var menuItem in menuList)
             {
                 Console.WriteLine(menuItem);
             }
@@ -112,7 +125,7 @@ namespace СonsoleFigures.Classes
             Menu.Push("Rules:");
             Menu.Push(rules);
             Menu.Push("Press any key to return to editing picture");
-            RedrawMenu();
+            Redraw();
             Console.ReadKey();
         }
 
@@ -120,11 +133,11 @@ namespace СonsoleFigures.Classes
         {
             string maxString = max==int.MaxValue ? "∞" : max.ToString();
             Menu.Push($"Enter {parametr} [{min},{maxString}]: ");
-            RedrawMenu();
+            Redraw();
             int value = -1;
             while (!int.TryParse(Console.ReadLine(), out value) || value < min || value > max)
             {
-                RedrawMenu();
+                Redraw();
             }
             Menu.Pop();
             return value;
@@ -133,11 +146,11 @@ namespace СonsoleFigures.Classes
         private bool InputIsHollow()
         {
             Menu.Push("Enter 1 - Hollow figure 2 - Fill figure:");
-            RedrawMenu();
+            Redraw();
             int value;
             while (!int.TryParse(Console.ReadLine(), out value) || value < 1 || value > 2)
             {
-                RedrawMenu();
+                Redraw();
             }
             Menu.Pop();
             return value == 1;
@@ -254,7 +267,7 @@ namespace СonsoleFigures.Classes
                 Menu.Push(ex.Message);
                 Menu.Push("Press any key to restart adding");
                 Menu.Push("Press ENTER to editing picture");
-                RedrawMenu();
+                Redraw();
                 ConsoleKey key = Console.ReadKey().Key;
                 if (key == ConsoleKey.Enter)
                 {
@@ -273,7 +286,7 @@ namespace СonsoleFigures.Classes
             Menu.Push("3 - Triangle");
             Menu.Push("4 - Line");
             Menu.Push("5 - Circle");
-            RedrawMenu();
+            Redraw();
             int input = InputInt("command", 1, 5);
             Menu.Clear();
             switch (input)
@@ -295,6 +308,154 @@ namespace СonsoleFigures.Classes
                     break;
             }
         }
+        private void Save()
+        {
+            if (!Directory.Exists("pictures"))
+            {
+                Directory.CreateDirectory("pictures");
+            }
+            Menu.Push("Save:");
+            string name;
+            while (true)
+            {
+                Menu.Push("Enter name for saving picture");
+                do
+                {
+                    Redraw();
+                    name = Console.ReadLine().Trim();
+                }
+                while (string.IsNullOrEmpty(name));
+                Menu.Pop();
+                if (File.Exists($"pictures/{name}.xml"))
+                {
+                    Menu.Push("Picture with this name already exist");
+                    Menu.Push("Press any key to restart");
+                    Redraw();
+                    Console.ReadKey();
+                    Menu.Pop();
+                    Menu.Pop();
+                    continue;
+                }
+                else
+                {
+                    try
+                    {
+                        using (FileStream fs = new FileStream($"pictures/{name}.xml", FileMode.Create))
+                        {
+                            XmlSerializer formatter = new XmlSerializer(typeof(List<Figure>));
+                            formatter.Serialize(fs, Picture.Figures);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        Menu.Push("Something went wrong");
+                        Menu.Push("Press any key");
+                        Redraw();
+                        Console.ReadKey();
+                    }
+                    break;
+                }
+            }
+        }
+
+        private void Upload()
+        {
+            Menu.Push("Upload:");
+            if (!Directory.Exists("pictures"))
+            {
+                Menu.Push("You haven't any saved pictures, press any key");
+                Redraw();
+                Console.ReadKey();
+                return;
+            }
+            while (true)
+            {
+                Menu.Push("Enter name for uploading picture");
+                string name;
+                do
+                {
+                    Redraw();
+                    name = Console.ReadLine().Trim();
+                }
+                while (string.IsNullOrEmpty(name));
+                Menu.Pop();
+                if (!File.Exists($"pictures/{name}.xml"))
+                {
+                    Menu.Push("You haven't saved picturess, press any key");
+                    Menu.Push("Press any key to restart adding");
+                    Menu.Push("Press ENTER to editing picture");
+                    Redraw();
+                    ConsoleKey key = Console.ReadKey().Key;
+                    if (key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        ClearRows(3);
+                        Redraw();
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        using (FileStream fs = new FileStream($"pictures/{name}.xml", FileMode.Open))
+                        {
+                            XmlSerializer formatter = new XmlSerializer(typeof(List<Figure>));
+                            var Figures = (List<Figure>)formatter.Deserialize(fs);
+                            Picture = new Picture(Console.WindowWidth, Console.WindowHeight - 13);
+                            foreach (var figure in Figures)
+                            {
+                                Picture.AddFigure(figure);
+                            }
+                        }
+                    }
+                    catch(FigureOutOfThePictureRangeException ex)
+                    {
+                        Menu.Push(ex.Message);
+                        Menu.Push("Please edit your frame size and try it later");
+                        Menu.Push("Press any key");
+                        Redraw();
+                        Console.ReadKey();
+                    }
+                    catch(Exception)
+                    {
+                        Menu.Push("Something went wrong");
+                        Menu.Push("Press any key");
+                        Redraw();
+                        Console.ReadKey();
+                    }
+                    break;
+                }
+            }
+        }
+
+        private void Sort()
+        {
+            Menu.Push("Sort:");
+            Menu.Push("1 - By Square");
+            Menu.Push("2 - By Perimetr");
+            Redraw();
+            int parametr;
+            while (!int.TryParse(Console.ReadLine(), out parametr) || parametr < 1 || parametr > 2)
+            {
+                Redraw();
+            }
+            Menu.Pop();
+            Menu.Pop();
+            Menu.Push("1 - By Acending");
+            Menu.Push("2 - By Desccending");
+            Redraw();
+            int sortType;
+            while (!int.TryParse(Console.ReadLine(), out sortType) || sortType < 1 || sortType > 2)
+            {
+                Redraw();
+            }
+            Menu.Pop();
+            Menu.Pop();
+            Picture.Sort(parametr == 1, sortType == 1);
+        }
 
         private bool RunMenu()
         {
@@ -307,7 +468,7 @@ namespace СonsoleFigures.Classes
             Menu.Push("5 - Help");
             Menu.Push("6 - Return to editing picture");
             Menu.Push("7 - Exit");
-            RedrawMenu();
+            Redraw();
             int input = InputInt("command", 1, 6);
             Menu.Clear();
             switch (input)
@@ -316,10 +477,13 @@ namespace СonsoleFigures.Classes
                     AddFigureMenu();
                     break;
                 case 2:
+                    Save();
                     break;
                 case 3:
+                    Upload();
                     break;
                 case 4:
+                    Sort();
                     break;
                 case 5:
                     Help();
@@ -338,23 +502,20 @@ namespace СonsoleFigures.Classes
             Picture = new Picture(Console.WindowWidth, Console.WindowHeight - 13);
             while (true)
             {
-                RedrawPicture();
+                Redraw();
                 Menu.Clear();
                 Menu.Push("For tansition to command line menu press SPACE");
-                RedrawMenu();
+                Redraw();
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 while (keyInfo.Key != ConsoleKey.Spacebar)
                 {
-                    Console.SetCursorPosition(0, Console.CursorLeft);
-                    Console.WriteLine(" ");
-                    Console.SetCursorPosition(0, Console.CursorLeft);
                     if (TryChangeActive(keyInfo.Key))
                     {
-                        RedrawPicture();
+                        Redraw();
                     }
                     if (TryChangeFigure(keyInfo.Key))
                     {
-                        RedrawPicture();
+                        Redraw();
                     }
                     keyInfo = Console.ReadKey();
                 }

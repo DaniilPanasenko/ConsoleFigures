@@ -15,7 +15,7 @@
       <File FileName="СonsoleFigures/Classes/Triangle.cs" />
       <File FileName="СonsoleFigures/Enums/Direction.cs" />
       <File FileName="СonsoleFigures/mono_crash.11a6748113.0.json" />
-      <File FileName="СonsoleFigures/Classes/Application.cs" Line="1" Column="1" />
+      <File FileName="СonsoleFigures/Classes/Application.cs" Line="373" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -52,7 +52,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.СonsoleFigures PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/admin/Projects/СonsoleFigures/СonsoleFigures/Classes/Application.cs" relfile="СonsoleFigures/Classes/Application.cs" line="375" column="1" />
+      <Breakpoint file="/Users/admin/Projects/СonsoleFigures/СonsoleFigures/Classes/Application.cs" relfile="СonsoleFigures/Classes/Application.cs" line="352" column="1" />
+      <Breakpoint file="/Users/admin/Projects/СonsoleFigures/СonsoleFigures/Classes/Application.cs" relfile="СonsoleFigures/Classes/Application.cs" line="334" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

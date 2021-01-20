@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Xml.Serialization;
 using СonsoleFigures.Enums;
 using СonsoleFigures.Exceptions;
 
@@ -27,6 +30,12 @@ namespace СonsoleFigures.Classes
             Width = width-2;
             Height = height-2;
             Active = -1;
+        }
+
+        public void SetSize(int width, int height)
+        {
+            Width = width - 2;
+            Height = height - 2;
         }
 
         public void AddFigure(Figure figure)
@@ -107,6 +116,34 @@ namespace СonsoleFigures.Classes
                 return true;
             }
             return false;
+        }
+
+        public void Sort(bool bySquare, bool byAsc)
+        {
+            Figure activeFigure = ActiveFigure;
+            if (bySquare)
+            {
+                if (byAsc)
+                {
+                    _figures = _figures.OrderBy(x => x.Square).ToList();
+                }
+                else
+                {
+                    _figures = _figures.OrderByDescending(x => x.Square).ToList();
+                }
+            }
+            else
+            {
+                if (byAsc)
+                {
+                    _figures = _figures.OrderBy(x => x.Perimetr).ToList();
+                }
+                else
+                {
+                    _figures = _figures.OrderByDescending(x => x.Perimetr).ToList();
+                }
+            }
+            Active = _figures.IndexOf(activeFigure);
         }
 
         private char[,] ToMatrix()
