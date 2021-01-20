@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{7B2A35E3-D26B-4796-8562-E6E1990CD776}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="СonsoleFigures/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="СonsoleFigures/Classes/Application.cs">
     <Files>
-      <File FileName="СonsoleFigures/Program.cs" Line="18" Column="98" />
+      <File FileName="СonsoleFigures/Program.cs" Line="15" Column="1" />
       <File FileName="СonsoleFigures/Classes/Picture.cs" />
       <File FileName="СonsoleFigures/Exceptions/FigureOutOfThePictureRangeException.cs" />
       <File FileName="СonsoleFigures/Classes/Figure.cs" />
@@ -13,28 +13,38 @@
       <File FileName="СonsoleFigures/Classes/Point.cs" />
       <File FileName="СonsoleFigures/Classes/Square.cs" />
       <File FileName="СonsoleFigures/Classes/Triangle.cs" />
+      <File FileName="СonsoleFigures/Enums/Direction.cs" />
+      <File FileName="СonsoleFigures/mono_crash.11a6748113.0.json" />
+      <File FileName="СonsoleFigures/Classes/Application.cs" Line="373" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="СonsoleFigures" expanded="True">
             <Node name="СonsoleFigures" expanded="True">
-              <Node name="Classes" expanded="True" />
+              <Node name="Classes" expanded="True">
+                <Node name="Application.cs" selected="True" />
+              </Node>
+              <Node name="Enums" expanded="True" />
               <Node name="Exceptions" expanded="True" />
               <Node name="Interfaces" expanded="True" />
-              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">
         <State name="__root__">
-          <Node name="СonsoleFigures" expanded="True" selected="True">
+          <Node name="СonsoleFigures" expanded="True">
             <Node name="СonsoleFigures" expanded="True">
-              <Node name="СonsoleFigures" expanded="True" />
+              <Node name="СonsoleFigures" expanded="True">
+                <Node name="СonsoleFigures.Classes.Rectangle" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -42,7 +52,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.СonsoleFigures PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/admin/Projects/СonsoleFigures/СonsoleFigures/Classes/Application.cs" relfile="СonsoleFigures/Classes/Application.cs" line="375" column="1" />
+      <Breakpoint file="/Users/admin/Projects/СonsoleFigures/СonsoleFigures/Classes/Application.cs" relfile="СonsoleFigures/Classes/Application.cs" line="352" column="1" />
+      <Breakpoint file="/Users/admin/Projects/СonsoleFigures/СonsoleFigures/Classes/Application.cs" relfile="СonsoleFigures/Classes/Application.cs" line="334" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

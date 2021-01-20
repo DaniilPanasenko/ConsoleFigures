@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
+using СonsoleFigures.Enums;
 
 namespace СonsoleFigures.Classes
 {
+    [Serializable]
     public class Triangle : Figure
     {
-        public Point Point1 { get; private set; }
+        public Point Point1 { get; set; }
 
-        public Point Point2 { get; private set; }
+        public Point Point2 { get; set; }
 
-        public Point Point3 { get; private set; }
+        public Point Point3 { get; set; }
 
         private List<Line> Lines =>
             new List<Line>() {
@@ -35,6 +38,9 @@ namespace СonsoleFigures.Classes
                 new int[] { Point1.Y, Point2.Y, Point3.Y }.Min()
             );
 
+        private bool[,] _matrix;
+
+        public Triangle() { }
 
         public Triangle(Point point1, Point point2, Point point3, bool isHollow) : base("Triangle", isHollow)
         {
@@ -43,7 +49,7 @@ namespace СonsoleFigures.Classes
             Point3 = point3;
         }
 
-        public override bool[,] ToMatrix()
+        private bool[,] GetMatrix()
         {
             int maxX = new int[] { Point1.X, Point2.X, Point3.X }.Max();
             int maxY = new int[] { Point1.Y, Point2.Y, Point3.Y }.Max();
@@ -97,6 +103,22 @@ namespace СonsoleFigures.Classes
                 }
             }
             return result;
+        }
+
+        public override void ChangePosition(Direction direction)
+        {
+            Point1.ChangePosition(direction);
+            Point2.ChangePosition(direction);
+            Point3.ChangePosition(direction);
+        }
+
+        public override bool[,] ToMatrix()
+        {
+            if (_matrix == null)
+            {
+                _matrix = GetMatrix();
+            }
+            return _matrix;
         }
 
         public override string ToString()

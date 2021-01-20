@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Text.Json.Serialization;
+using СonsoleFigures.Enums;
+
 namespace СonsoleFigures.Classes
 {
+    [Serializable]
     public class Line : Figure
     {
-        public Point Point1 { get; private set; }
+        public Point Point1 { get; set; }
 
-        public Point Point2 { get; private set; }
+        public Point Point2 { get; set; }
 
         public override decimal Square => 0;
 
@@ -17,6 +21,9 @@ namespace СonsoleFigures.Classes
                     Math.Min(Point1.X, Point2.X),
                     Math.Min(Point1.Y, Point2.Y));
 
+        private bool[,] _matrix;
+
+        public Line() { }
 
         public Line(Point point1, Point point2) : base("Line", false)
         {
@@ -24,7 +31,7 @@ namespace СonsoleFigures.Classes
             Point2 = point2;
         }
 
-        public override bool[,] ToMatrix()
+        private bool[,] GetMatrix()
         {
             bool[,] result = new bool[Math.Abs(Point1.Y - Point2.Y) + 1, Math.Abs(Point1.X - Point2.X) + 1];
             for (int i = 0; i < result.GetLength(0); i++)
@@ -57,6 +64,21 @@ namespace СonsoleFigures.Classes
                 }
             }
             return result;
+        }
+
+        public override void ChangePosition(Direction direction)
+        {
+            Point1.ChangePosition(direction);
+            Point2.ChangePosition(direction);
+        }
+
+        public override bool[,] ToMatrix()
+        {
+            if (_matrix == null)
+            {
+                _matrix = GetMatrix();
+            }
+            return _matrix;
         }
 
         public override string ToString()

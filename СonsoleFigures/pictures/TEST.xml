@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<ArrayOfFigure xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Figure xsi:type="Rectangle">
+    <Name>Rectangle</Name>
+    <IsHollow>true</IsHollow>
+    <LeftTopPoint>
+      <X>10</X>
+      <Y>10</Y>
+    </LeftTopPoint>
+    <Width>200</Width>
+    <Height>20</Height>
+  </Figure>
+  <Figure xsi:type="Square">
+    <Name>Square</Name>
+    <IsHollow>false</IsHollow>
+    <LeftTopPoint>
+      <X>10</X>
+      <Y>10</Y>
+    </LeftTopPoint>
+    <Width>10</Width>
+    <Height>10</Height>
+  </Figure>
+  <Figure xsi:type="Triangle">
+    <Name>Triangle</Name>
+    <IsHollow>false</IsHollow>
+    <Point1>
+      <X>0</X>
+      <Y>0</Y>
+    </Point1>
+    <Point2>
+      <X>10</X>
+      <Y>0</Y>
+    </Point2>
+    <Point3>
+      <X>0</X>
+      <Y>10</Y>
+    </Point3>
+  </Figure>
+  <Figure xsi:type="Line">
+    <Name>Line</Name>
+    <IsHollow>false</IsHollow>
+    <Point1>
+      <X>0</X>
+      <Y>0</Y>
+    </Point1>
+    <Point2>
+      <X>275</X>
+      <Y>64</Y>
+    </Point2>
+  </Figure>
+  <Figure xsi:type="Circle">
+    <Name>Circle</Name>
+    <IsHollow>false</IsHollow>
+    <Center>
+      <X>50</X>
+      <Y>50</Y>
+    </Center>
+    <Radius>10</Radius>
+  </Figure>
+</ArrayOfFigure>

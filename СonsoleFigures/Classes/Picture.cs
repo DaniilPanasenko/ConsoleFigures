@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Xml.Serialization;
+using СonsoleFigures.Enums;
 using СonsoleFigures.Exceptions;
 
 namespace СonsoleFigures.Classes
 {
     public class Picture
     {
-        public static char[] levels = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+        private static char[] levels = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
         private List<Figure> _figures = new List<Figure>();
 
@@ -17,10 +21,21 @@ namespace СonsoleFigures.Classes
 
         public int Height { get; private set; }
 
+        private int Active { get; set; }
+
+        public Figure ActiveFigure => Figures.Count == 0 ? null : Figures[Active];
+
         public Picture(int width, int height)
         {
-            Width = width;
-            Height = height;
+            Width = width-2;
+            Height = height-2;
+            Active = -1;
+        }
+
+        public void SetSize(int width, int height)
+        {
+            Width = width - 2;
+            Height = height - 2;
         }
 
         public void AddFigure(Figure figure)
@@ -51,14 +66,87 @@ namespace СonsoleFigures.Classes
                 throw new FigureOutOfThePictureRangeException("Figure out of the picture bottom bound");
             }
             _figures.Add(figure);
+            Active = Figures.Count - 1;
         }
 
-        public void DeleteFigure(Figure figure)
+        public bool TryDeleteActiveFigure()
         {
-            _figures.Remove(figure);
+            if (ActiveFigure != null)
+            {
+                _figures.Remove(ActiveFigure);
+                if (Active == Figures.Count)
+                {
+                    Active--;
+                }
+                return true;
+            }
+            return false;
         }
 
-        public char[,] ToMatrix()
+        public void UpActive()
+        {
+            Active = Math.Min(Figures.Count - 1, ++Active);
+        }
+
+        public void DownActive()
+        {
+            Active = Math.Max(0, --Active);
+        }
+
+        public bool TryChangeFigurePosition(Direction direction)
+        {
+            if (ActiveFigure != null)
+            {
+                switch (direction)
+                {
+                    case Direction.Up:
+                        if (ActiveFigure.Coordinates.Y == 0) return  false;
+                        break;
+                    case Direction.Left:
+                        if (ActiveFigure.Coordinates.X == 0) return false;
+                        break;
+                    case Direction.Down:
+                        if (ActiveFigure.Coordinates.Y + ActiveFigure.ToMatrix().GetLength(0) == Height) return false;
+                        break;
+                    case Direction.Right:
+                        if (ActiveFigure.Coordinates.X + ActiveFigure.ToMatrix().GetLength(1) == Width) return false;
+                        break;
+                }
+                ActiveFigure.ChangePosition(direction);
+                return true;
+            }
+            return false;
+        }
+
+        public void Sort(bool bySquare, bool byAsc)
+        {
+            Figure activeFigure = ActiveFigure;
+            if (bySquare)
+            {
+                if (byAsc)
+                {
+                    _figures = _figures.OrderBy(x => x.Square).ToList();
+                }
+                else
+                {
+                    _figures = _figures.OrderByDescending(x => x.Square).ToList();
+                }
+            }
+            else
+            {
+                if (byAsc)
+                {
+                    _figures = _figures.OrderBy(x => x.Perimetr).ToList();
+                }
+                else
+                {
+                    _figures = _figures.OrderByDescending(x => x.Perimetr).ToList();
+                }
+            }
+            Active = _figures.IndexOf(activeFigure);
+        }
+
+        private char[,] ToMatrix()
         {
             char[,] result = new char[Height + 2, Width + 2];
             for(int i=0; i<result.GetLength(0); i++)
@@ -88,12 +176,34 @@ namespace СonsoleFigures.Classes
                     {
                         if (figureMatrix[l, k])
                         {
-                            result[l + (int)figures[i].Coordinates.X + 1, k + (int)figures[i].Coordinates.Y + 1] = levels[i];
+                            result[l + (int)figures[i].Coordinates.Y + 1, k + (int)figures[i].Coordinates.X + 1] = levels[i];
                         }
                     }
                 }
             }
             return result;
+        }
+
+        public void Print()
+        {
+            var matrix = ToMatrix();
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (Active>=0 && matrix[i, j] == levels[Active])
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write(matrix[i, j]);
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.Write(matrix[i, j]);
+                    }
+                }
+                Console.WriteLine();
+            }
         }
     }
 }

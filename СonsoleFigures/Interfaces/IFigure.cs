@@ -1,5 +1,6 @@
 ﻿using System;
 using СonsoleFigures.Classes;
+using СonsoleFigures.Enums;
 
 namespace СonsoleFigures.Interfaces
 {
@@ -18,5 +19,7 @@ namespace СonsoleFigures.Interfaces
         public bool[,] ToMatrix();
 
         public string ToString();
+
+        public void ChangePosition(Direction direction);
     }
 }
