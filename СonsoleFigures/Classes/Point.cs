@@ -1,4 +1,6 @@
 ﻿using System;
+using СonsoleFigures.Enums;
+
 namespace СonsoleFigures.Classes
 {
     public class Point
@@ -11,6 +13,25 @@ namespace СonsoleFigures.Classes
         {
             X = x;
             Y = y;
+        }
+
+        public void ChangePosition(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    Y--;
+                    break;
+                case Direction.Down:
+                    Y++;
+                    break;
+                case Direction.Left:
+                    X--;
+                    break;
+                case Direction.Right:
+                    X++;
+                    break;
+            }
         }
 
         public override string ToString()

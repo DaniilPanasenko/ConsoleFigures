@@ -1,4 +1,5 @@
 ﻿using System;
+using СonsoleFigures.Enums;
 using СonsoleFigures.Interfaces;
 
 namespace СonsoleFigures.Classes
@@ -20,6 +21,8 @@ namespace СonsoleFigures.Classes
             Name = name;
             IsHollow = isHollow;
         }
+
+        public abstract void ChangePosition(Direction direction);
 
         public abstract bool[,] ToMatrix();
 

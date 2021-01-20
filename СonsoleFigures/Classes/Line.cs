@@ -1,4 +1,6 @@
 ﻿using System;
+using СonsoleFigures.Enums;
+
 namespace СonsoleFigures.Classes
 {
     public class Line : Figure
@@ -17,14 +19,16 @@ namespace СonsoleFigures.Classes
                     Math.Min(Point1.X, Point2.X),
                     Math.Min(Point1.Y, Point2.Y));
 
+        private readonly bool[,] _matrix;
 
         public Line(Point point1, Point point2) : base("Line", false)
         {
             Point1 = point1;
             Point2 = point2;
+            _matrix = GetMatrix();
         }
 
-        public override bool[,] ToMatrix()
+        private bool[,] GetMatrix()
         {
             bool[,] result = new bool[Math.Abs(Point1.Y - Point2.Y) + 1, Math.Abs(Point1.X - Point2.X) + 1];
             for (int i = 0; i < result.GetLength(0); i++)
@@ -58,6 +62,14 @@ namespace СonsoleFigures.Classes
             }
             return result;
         }
+
+        public override void ChangePosition(Direction direction)
+        {
+            Point1.ChangePosition(direction);
+            Point2.ChangePosition(direction);
+        }
+
+        public override bool[,] ToMatrix() => _matrix;
 
         public override string ToString()
         {

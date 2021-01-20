@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using СonsoleFigures.Enums;
 
 namespace СonsoleFigures.Classes
 {
@@ -35,15 +36,17 @@ namespace СonsoleFigures.Classes
                 new int[] { Point1.Y, Point2.Y, Point3.Y }.Min()
             );
 
+        private readonly bool[,] _matrix;
 
         public Triangle(Point point1, Point point2, Point point3, bool isHollow) : base("Triangle", isHollow)
         {
             Point1 = point1;
             Point2 = point2;
             Point3 = point3;
+            _matrix = GetMatrix();
         }
 
-        public override bool[,] ToMatrix()
+        private bool[,] GetMatrix()
         {
             int maxX = new int[] { Point1.X, Point2.X, Point3.X }.Max();
             int maxY = new int[] { Point1.Y, Point2.Y, Point3.Y }.Max();
@@ -98,6 +101,15 @@ namespace СonsoleFigures.Classes
             }
             return result;
         }
+
+        public override void ChangePosition(Direction direction)
+        {
+            Point1.ChangePosition(direction);
+            Point2.ChangePosition(direction);
+            Point3.ChangePosition(direction);
+        }
+
+        public override bool[,] ToMatrix() => _matrix;
 
         public override string ToString()
         {

@@ -1,4 +1,6 @@
 ﻿using System;
+using СonsoleFigures.Enums;
+
 namespace СonsoleFigures.Classes
 {
     public class Circle : Figure
@@ -13,13 +15,16 @@ namespace СonsoleFigures.Classes
 
         public override Point Coordinates => new Point(Center.X - Radius, Center.Y - Radius);
 
+        private readonly bool[,] _matrix;
+
         public Circle(Point center, int radius, bool isHollow) : base("Circle", isHollow)
         {
             Center = center;
             Radius = radius;
+            _matrix = GetMatrix();
         }
 
-        public override bool[,] ToMatrix()
+        private bool[,] GetMatrix()
         {
             bool[,] result = new bool[Radius * 2 + 1, Radius * 2 + 1];
             Point center = new Point(Center.X - Coordinates.X, Center.Y - Coordinates.Y);
@@ -47,9 +52,16 @@ namespace СonsoleFigures.Classes
             return result;
         }
 
+        public override bool[,] ToMatrix() => _matrix;
+
         public override string ToString()
         {
             return $"{Name}: Center = {Center} Radius = {Radius} {ToDimensionSring()}";
+        }
+
+        public override void ChangePosition(Direction direction)
+        {
+            Center.ChangePosition(direction);
         }
     }
 }

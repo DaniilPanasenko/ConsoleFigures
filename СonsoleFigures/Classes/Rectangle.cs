@@ -1,4 +1,6 @@
 ﻿using System;
+using СonsoleFigures.Enums;
+
 namespace СonsoleFigures.Classes
 {
     public class Rectangle : Figure
@@ -15,14 +17,17 @@ namespace СonsoleFigures.Classes
 
         public override decimal Perimetr => 2 * Width + 2 * Height;
 
+        private readonly bool[,] _matrix;
+
         public Rectangle(Point point, int width, int height, bool isHollow, string name = "Rectangle") : base(name, isHollow)
         {
             LeftTopPoint = point;
             Width = width;
             Height = height;
+            _matrix = GetMatrix();
         }
 
-        public override bool[,] ToMatrix()
+        private bool[,] GetMatrix()
         {
             bool[,] result = new bool[Height, Width];
             for (int i = 0; i < result.GetLength(0); i++)
@@ -44,6 +49,13 @@ namespace СonsoleFigures.Classes
             }
             return result;
         }
+
+        public override void ChangePosition(Direction direction)
+        {
+            LeftTopPoint.ChangePosition(direction);
+        }
+
+        public override bool[,] ToMatrix() => _matrix;
 
         public override string ToString()
         {
